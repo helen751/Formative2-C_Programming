@@ -128,6 +128,17 @@ void read_text(char message[], char value[], int size) {
     }
 }
 
+// creating a function to validate empty field for required sections
+void read_required_text(char message[], char value[], int size) {
+    do {
+        read_text(message, value, size);
+
+        if (strlen(value) == 0) {
+            printf("\nError! This field cannot be empty.\n");
+        }
+    } while (strlen(value) == 0);
+}
+
 // checking if the student ID already exists before adding a new record
 bool student_id_exists(StudentDatabase *database, int student_id) {
     Student *current_student;
@@ -232,13 +243,13 @@ void add_student(StudentDatabase *database) {
         }
     }
 
-    read_text(
+    read_required_text(
         "Enter the student's full name: ",
         new_student.name,
         NAME_LENGTH
     );
 
-    read_text(
+    read_required_text(
         "Enter the course or module name: ",
         new_student.course,
         COURSE_LENGTH
@@ -977,6 +988,7 @@ int main(void) {
         print_menu();
 
         if (!read_integer("\tSelect an option from 1 to 10: ", &choice)) {
+            sleep(1);
             continue;
         }
 
