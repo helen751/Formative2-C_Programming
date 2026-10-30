@@ -460,7 +460,12 @@ bool expand_device_storage(IoTSystem *system) {
         return true;
     }
 
-    new_capacity = system->device_capacity * 2;
+    if (system->device_capacity == 0) {
+        new_capacity = 1;
+    }
+    else {
+        new_capacity = system->device_capacity * 2;
+    }
     resized_devices = realloc(system->devices, new_capacity * sizeof(Device));
 
     if (resized_devices == NULL) {
